@@ -1,0 +1,97 @@
+"""
+projekt_2.py: druhý projekt do Engeto Online Python Akademie
+author: Antonín Bergner
+email: tonda.bergner@gmail.com
+discord: # Tondoj
+"""
+
+import random
+import time
+
+# Generating random numbers
+def generate_secret_number():
+    first_number = random.choice(range(1, 10))
+    remaining_numbers = random.sample([x for x in range(10) if x != first_number], 3)
+    return str(first_number) + "".join(map(str, remaining_numbers))
+
+# Verification of numbers
+def is_valid_input(user_input):
+    if not user_input.isdigit():
+        print("Invalid input! Enter numbers only!")
+        return False
+    if len(user_input) != 4:
+        print("Invalid input! Use only four-digit numbers!")
+        return False
+    if user_input[0] == '0':
+        print("Invalid input! Number cannot start with zero!")
+        return False
+    if len(set(user_input)) !=4:
+        print("Invalid input! All digits must be unique!")
+        return False
+    return True
+
+# Calculating bulls and cows
+def count_bulls_and_cows(secret, guess):
+    bulls = sum(1 for i in range(4) if secret[i] == guess[i])
+    cows = sum(1 for i in range(4) if guess[i] in secret and secret[i] != guess[i])
+    return bulls, cows
+
+# Timer
+def count_time(seconds):
+    minutes = seconds // 60
+    seconds = seconds % 60
+    return f"{minutes:02}:{seconds:02}"
+
+# Launch the game
+def launch_game():
+    print("Hello there!")
+    print("-" * 63)
+    print("I've generated a random 4 digit number for you.")
+    print("Let's play a Bulls and Cows game.")
+    print("-" * 63)
+
+    secret_number = generate_secret_number()
+    attempts = 0
+    start_time = time.time()
+
+    while True:
+        print(f"Time elapsed: {count_time(int(time.time() - start_time))}")
+        user_guess = input("Enter 4 digit number: ")
+
+        if not is_valid_input(user_guess):
+            continue 
+
+        attempts += 1
+        bulls, cows = count_bulls_and_cows(secret_number, user_guess)
+
+# List of results
+        bull_text = "bull" if bulls == 1 else "Bulls"
+        cow_text = "cows" if cows == 1 else "Cows"
+        print(f"{bulls} {bull_text}, {cows} {cow_text}")
+        print("-" * 63)
+
+# If correct answer
+        if bulls == 4:
+            total_time = int(time.time() - start_time)
+            print(f"Awesome, you've guessed the right number in {attempts} guesses!")
+            print(f"It took you {count_time(total_time)}")
+
+            if attempts <= 5:
+                print("Like a boss!")
+            elif attempts <= 15:
+                print("50/50, not the best, not the worst!")
+            else:
+                print("Maybe it will be better next time!")
+
+            print("-" * 63)
+
+            restart = input("If you want to play again, press Enter or type 'exit' to quit: ").strip().lower()      # Continue or exit the game
+            if restart == "":
+                print("\nStarting new game, good luck!")
+                launch_game()
+            else:
+                print("Goodbye!")
+                exit()
+                
+if __name__ == "__main__":
+    launch_game()
