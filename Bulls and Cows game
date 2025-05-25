@@ -1,10 +1,3 @@
-"""
-projekt_2.py: druhý projekt do Engeto Online Python Akademie
-author: Antonín Bergner
-email: tonda.bergner@gmail.com
-discord: # Tondoj
-"""
-
 import random
 import time
 
@@ -65,8 +58,8 @@ def launch_game():
         bulls, cows = count_bulls_and_cows(secret_number, user_guess)
 
 # List of results
-        bull_text = "bull" if bulls == 1 else "Bulls"
-        cow_text = "cows" if cows == 1 else "Cows"
+        bull_text = "Bull" if bulls == 1 else "Bulls"
+        cow_text = "Cows" if cows == 1 else "Cows"
         print(f"{bulls} {bull_text}, {cows} {cow_text}")
         print("-" * 63)
 
@@ -82,16 +75,17 @@ def launch_game():
                 print("50/50, not the best, not the worst!")
             else:
                 print("Maybe it will be better next time!")
-
             print("-" * 63)
+            break
 
-            restart = input("If you want to play again, press Enter or type 'exit' to quit: ").strip().lower()      # Continue or exit the game
-            if restart == "":
-                print("\nStarting new game, good luck!")
-                launch_game()
-            else:
-                print("Goodbye!")
-                exit()
+def main():
+    while True:
+        launch_game()
+        restart = input("If you want to play again, press Enter or type 'exit' to quit: ").strip().lower()      # Continue or exit the game
+        if restart == "exit":
+            print("Goodbye!")
+            break
+        print("\nStarting new game, good luck!")
                 
 if __name__ == "__main__":
-    launch_game()
+    main()
